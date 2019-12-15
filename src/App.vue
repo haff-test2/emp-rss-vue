@@ -1,19 +1,27 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="authenticated_block" v-if=isAuthentificated()>
+      <router-link to="/feeds">Manage feeds</router-link>
+      <span> | </span>
+      <router-link to="/reader">Read feeds</router-link>
+      <div class='rigthExtraLinks'>
+        <router-link to="/sign_in" v-on:click.native="signOut()" replace>Logout</router-link>
+      </div>
+    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+  import { isAuthentificated, signOut } from '@/services/sessions'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  export default {
+    name: 'app',
+    methods: {
+      signOut: () => { signOut() },
+      isAuthentificated: () => { return isAuthentificated() }
+    }
   }
-}
 </script>
 
 <style>
@@ -24,5 +32,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.rigthExtraLinks {
+float:right;
 }
 </style>
